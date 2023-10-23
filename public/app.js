@@ -1,1 +1,3 @@
-console.log("hello world");
+import {createBoard} from "./components/Board.js";
+
+createBoard();
