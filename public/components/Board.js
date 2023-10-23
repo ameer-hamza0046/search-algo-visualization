@@ -8,8 +8,8 @@ const cell = (i, j) => {
 }
 
 const createBoard = () => {
-    const board = document.createElement("div");
-    board.id = "board";
+    const board = document.getElementById("board");
+    board.innerHTML = "";
     for(let i=0; i<M; i++) {
         const row = document.createElement("div");
         row.classList.add("row");
@@ -20,7 +20,6 @@ const createBoard = () => {
         }
         board.appendChild(row);
     }
-    document.getElementById("root").appendChild(board);
     cell(start[0], start[1]).id = "start";
     cell(goal[0], goal[1]).id = "goal";
 }
