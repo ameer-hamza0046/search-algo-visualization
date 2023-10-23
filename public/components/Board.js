@@ -1,5 +1,5 @@
-const M = 50;
-const N = 80;
+const M = 30;
+const N = 70;
 const start = [Math.floor(M/2), Math.floor(N/4)];
 const goal = [Math.floor(M/2), Math.floor(3*N/4)];
 
