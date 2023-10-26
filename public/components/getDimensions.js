@@ -1,9 +1,9 @@
 const getDimensions =  {
     getM: function() {
-        return 30;
+        return 10;
     },
     getN: function() {
-        return 50;
+        return 20;
     },
 }
 export default getDimensions;
