@@ -1,9 +1,9 @@
 const getInfo = {
   getM: function () {
-    return 11;
+    return 25;
   },
   getN: function () {
-    return 21;
+    return 45;
   },
   getCell: function ([i, j]) {
     return document.getElementById("board").children[i].children[j];

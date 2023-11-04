@@ -16,7 +16,19 @@ const createBoard = () => {
     board.appendChild(row);
   }
   const start = [Math.floor(M / 2), Math.floor(N / 4)];
+  if(start[0]%2===0) {
+    start[0]++;
+  }
+  if(start[1]%2===0) {
+    start[1]++;
+  }
   const goal = [Math.floor(M / 2), Math.floor((3 * N) / 4)];
+  if(goal[0]%2===0) {
+    goal[0]++;
+  }
+  if(goal[1]%2===0) {
+    goal[1]++;
+  }
   const startNode = document.createElement("div");
   startNode.id = "start";
   const goalNode = document.createElement("div");
