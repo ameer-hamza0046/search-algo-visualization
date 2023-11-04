@@ -9,7 +9,6 @@ const getInfo =  {
         return document.getElementById("board").children[i].children[j];
     },
     getStart: function() {
-        const board = document.getElementById("board");
         const M = getInfo.getM();
         const N = getInfo.getN();
         for(let i=0; i<M; i++) {
@@ -22,7 +21,6 @@ const getInfo =  {
         return [-1, -1];
     },
     getGoal: function() {
-        const board = document.getElementById("board");
         const M = getInfo.getM();
         const N = getInfo.getN();
         for(let i=0; i<M; i++) {
