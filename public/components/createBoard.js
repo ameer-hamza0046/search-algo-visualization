@@ -1,9 +1,8 @@
-import getDimensions from "./getDimensions.js";
-import getCell from "./getCell.js";
+import getInfo from "./getInfo.js";
 
 const createBoard = () => {
-    const M = getDimensions.getM();
-    const N = getDimensions.getN();
+    const M = getInfo.getM();
+    const N = getInfo.getN();
     const board = document.getElementById("board");
     board.innerHTML = "";
     for(let i=0; i<M; i++) {
@@ -22,8 +21,8 @@ const createBoard = () => {
     startNode.id = "start";
     const goalNode = document.createElement("div");
     goalNode.id = "goal";
-    getCell(start).appendChild(startNode);
-    getCell(goal).appendChild(goalNode);
+    getInfo.getCell(start).appendChild(startNode);
+    getInfo.getCell(goal).appendChild(goalNode);
     
     ///////////// dragging ////////////
     function dragstartHandler(ev) {
@@ -48,7 +47,7 @@ const createBoard = () => {
     goalNode.addEventListener("dragstart", dragstartHandler);
     for(let i=0; i<M; i++) {
         for(let j=0; j<N; j++) {
-            const cur = getCell([i, j]);
+            const cur = getInfo.getCell([i, j]);
             cur.addEventListener("dragover", dragoverHandler);
             cur.addEventListener("drop", dropHandler);
         }
