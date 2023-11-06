@@ -11,22 +11,27 @@ const createBoard = () => {
     for (let j = 0; j < N; j++) {
       const cell = document.createElement("div");
       cell.classList.add("cell");
+      cell.addEventListener("click", e => e.target.classList.toggle("wall"));
+      // cell.addEventListener("dragenter", (e) =>
+      //   e.target.classList.toggle("wall")
+      // );
+      cell.ondrag
       row.appendChild(cell);
     }
     board.appendChild(row);
   }
   const start = [Math.floor(M / 2), Math.floor(N / 4)];
-  if(start[0]%2===0) {
+  if (start[0] % 2 === 0) {
     start[0]++;
   }
-  if(start[1]%2===0) {
+  if (start[1] % 2 === 0) {
     start[1]++;
   }
   const goal = [Math.floor(M / 2), Math.floor((3 * N) / 4)];
-  if(goal[0]%2===0) {
+  if (goal[0] % 2 === 0) {
     goal[0]++;
   }
-  if(goal[1]%2===0) {
+  if (goal[1] % 2 === 0) {
     goal[1]++;
   }
   const startNode = document.createElement("div");

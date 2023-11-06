@@ -19,14 +19,6 @@ const mazeSkeleton = () => {
       }
     }
   }
-  // copying the skeleton to the board
-  for (let i = 0; i < M; i++) {
-    for (let j = 0; j < N; j++) {
-      if (grid[i][j] === 1) {
-        getCell([i, j]).classList.add("wall");
-      }
-    }
-  }
 
   return grid;
 };
@@ -70,13 +62,13 @@ const dfsmaze = () => {
 
   for (let i = 0; i < M; i++) {
     for (let j = 0; j < N; j++) {
-      if (grid[i][j] === 0) {
+      if (grid[i][j] === 1) {
+        getCell([i, j]).classList.add("wall");
+      } else {
         getCell([i, j]).classList.remove("wall");
       }
     }
   }
-
-  return grid;
 };
 
 const mazes = {

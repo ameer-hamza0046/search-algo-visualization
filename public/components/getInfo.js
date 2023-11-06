@@ -9,8 +9,8 @@ const getInfo = {
     return document.getElementById("board").children[i].children[j];
   },
   getStart: function () {
-    const M = getInfo.getM();
-    const N = getInfo.getN();
+    const M = this.getM();
+    const N = this.getN();
     for (let i = 0; i < M; i++) {
       for (let j = 0; j < N; j++) {
         if (
@@ -24,8 +24,8 @@ const getInfo = {
     return [-1, -1];
   },
   getGoal: function () {
-    const M = getInfo.getM();
-    const N = getInfo.getN();
+    const M = this.getM();
+    const N = this.getN();
     for (let i = 0; i < M; i++) {
       for (let j = 0; j < N; j++) {
         if (
@@ -37,6 +37,20 @@ const getInfo = {
       }
     }
     return [-1, -1];
+  },
+  getGrid: function () {
+    const M = this.getM();
+    const N = this.getN();
+    const grid = Array(M);
+    for (let i = 0; i < M; i++) {
+      grid[i] = Array(N).fill(0);
+      for (let j = 0; j < N; j++) {
+        if (this.getCell([i, j]).classList.contains("wall")) {
+          grid[i][j] = 1;
+        }
+      }
+    }
+    return grid;
   },
 };
 export default getInfo;
