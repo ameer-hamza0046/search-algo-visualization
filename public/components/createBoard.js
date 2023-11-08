@@ -15,7 +15,6 @@ const createBoard = () => {
       // cell.addEventListener("dragenter", (e) =>
       //   e.target.classList.toggle("wall")
       // );
-      cell.ondrag
       row.appendChild(cell);
     }
     board.appendChild(row);
