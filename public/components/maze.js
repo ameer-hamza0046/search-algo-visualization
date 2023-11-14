@@ -1,9 +1,6 @@
-import getInfo from "./getInfo.js";
 import util from "./util.js";
-const M = getInfo.getM();
-const N = getInfo.getN();
-const getCell = getInfo.getCell;
-const rand = util.rand;
+
+const [M, N] = util.getMN();
 //
 const mazeSkeleton = () => {
   // creating a grid
@@ -42,7 +39,7 @@ const dfsmaze = () => {
       [0, -1],
       [0, 1],
     ];
-    util.shuffleArray(dir);
+    shuffleArray(dir);
     dir.forEach(([dirx, diry]) => {
       const [newx, newy] = [x + 2 * dirx, y + 2 * diry];
       if (
@@ -63,17 +60,12 @@ const dfsmaze = () => {
   for (let i = 0; i < M; i++) {
     for (let j = 0; j < N; j++) {
       if (grid[i][j] === 1) {
-        getCell([i, j]).classList.add("wall");
+        util.getCell([i, j]).classList.add("wall");
       } else {
-        getCell([i, j]).classList.remove("wall");
+        util.getCell([i, j]).classList.remove("wall");
       }
     }
   }
 };
 
-const mazes = {
-  mazeSkeleton: mazeSkeleton,
-  dfsmaze: dfsmaze,
-};
-
-export default mazes;
+export default {mazeSkeleton, dfsmaze};
