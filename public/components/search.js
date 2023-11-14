@@ -28,11 +28,11 @@ const bfs = () => {
   }
   let t = 1;
   ///
-  q.push(start);
+  q.push([...start], 0, 0);
   visited[start[0]][start[1]] = 1;
   prev[start[0]][start[1]] = [-1, -1];
   while (q.empty() == false) {
-    const [a, b] = q.pop();
+    const [a, b, dx, dy] = q.pop();
     if (a === goal[0] && b === goal[1]) {
       break;
     }
@@ -46,6 +46,8 @@ const bfs = () => {
       [0, 1],
     ];
     util.shuffleArray(dir);
+    dir.push([dx, dy]);
+    dir.reverse();
     dir.forEach(([offa, offb]) => {
       const x = a + offa;
       const y = b + offb;
@@ -59,7 +61,7 @@ const bfs = () => {
       ) {
         prev[x][y] = [a, b];
         visited[x][y] = 1;
-        q.push([x, y]);
+        q.push([x, y, offa, offb]);
       }
     });
   }
@@ -71,8 +73,7 @@ const bfs = () => {
       util.getCell([a, b]).classList.add("path");
     }, t++ * 5);
     cur = prev[a][b];
-  } 
+  }
 };
 
-
-export default {bfs, clearPaths};
+export default { bfs, clearPaths };

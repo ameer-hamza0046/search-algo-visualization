@@ -25,7 +25,7 @@ const dfsmaze = () => {
   // select a starting location
   // range(x) = 2*[0, M/2)+1
   // range(y) = 2*[0, N/2]+1
-  const [x, y] = [2 * rand(M / 2) + 1, 2 * rand(N / 2) + 1];
+  const [x, y] = [2 * util.rand(M / 2) + 1, 2 * util.rand(N / 2) + 1];
 
   const visited = [];
   for (let i = 0; i < M; i++) {
@@ -39,7 +39,7 @@ const dfsmaze = () => {
       [0, -1],
       [0, 1],
     ];
-    shuffleArray(dir);
+    util.shuffleArray(dir);
     dir.forEach(([dirx, diry]) => {
       const [newx, newy] = [x + 2 * dirx, y + 2 * diry];
       if (
@@ -68,4 +68,4 @@ const dfsmaze = () => {
   }
 };
 
-export default {mazeSkeleton, dfsmaze};
+export default { mazeSkeleton, dfsmaze };
