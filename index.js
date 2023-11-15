@@ -6,9 +6,9 @@ const __dirname = path.resolve();
 app.use("/public", express.static(__dirname + "/public"));
 
 app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/public/index.html");
+  res.sendFile(__dirname + "/index.html");
 });
 
 app.listen(3000, () => {
-  console.log("listening...");
+  console.log("The server is running at port 3000...");
 });
