@@ -14,118 +14,80 @@ const clearPaths = () => {
 
 const bfs = () => {
   clearPaths();
-  const [M, N] = util.getMN();
-  const grid = util.getGrid();
-  const start = util.getStart();
-  const goal = util.getGoal();
+  // initialize variables
+  const [M, N, grid, start, goal, dir] = [
+    ...util.getMN(),
+    util.getGrid(),
+    util.getStart(),
+    util.getGoal(),
+    util.getDir(),
+  ];
   const q = new dataStructure.Queue();
-
-  const visited = [];
-  const prev = [];
+  const anim = [];
+  const [visited, prev] = [[], []];
   for (let i = 0; i < M; i++) {
     visited[i] = Array(N).fill(0);
-    prev[i] = Array(N).map((e) => [-1, -1]);
+    prev[i] = [];
   }
-  let t = 1;
-  ///
-  q.push([...start, 0, 0]);
-  visited[start[0]][start[1]] = 1;
-  prev[start[0]][start[1]] = [-1, -1];
+  // remove walls for the start and goal node so that the search should stop on the start node or right before the goal node
+  util.getCell(start).classList.remove("wall");
+  util.getCell(goal).classList.remove("wall");
+  // starting the search
+  // x,y = coordinates of the current node
+  // prevx, prevy = coordinates of the parent node (later used to find the path from start to goal)
+  // dx, dy = last used direction by the parent node (used so that the search looks somewhat less chaotic)
+  // x, y, prevx, prevy, dx, dy
+  q.push([...start, -1, -1, 0, 0]);
   while (q.empty() == false) {
-    const [a, b, dx, dy] = q.pop();
-    if (a === goal[0] && b === goal[1]) {
+    const [x, y, prevx, prevy, dx, dy] = q.pop();
+    if (x < 0 || x >= M || y < 0 || y >= N || grid[x][y] || visited[x][y]) {
+      continue;
+    }
+    visited[x][y] = 1;
+    prev[x][y] = [prevx, prevy];
+    // storing the current visited node for the animation
+    anim.push([x, y]);
+    // if the current node is goal then stop here
+    if (x === goal[0] && y === goal[1]) {
       break;
     }
-    setTimeout(() => {
-      util.getCell([a, b]).classList.add("explored");
-    }, t++ * 5);
-    const dir = util.getDir();
-    util.shuffleArray(dir);
-    dir.push([dx, dy]);
-    dir.reverse();
-    dir.forEach(([offa, offb]) => {
-      const x = a + offa;
-      const y = b + offb;
-      if (
-        x >= 0 &&
-        x < M &&
-        y >= 0 &&
-        y < N &&
-        grid[x][y] === 0 &&
-        visited[x][y] === 0
-      ) {
-        prev[x][y] = [a, b];
-        visited[x][y] = 1;
-        q.push([x, y, offa, offb]);
-      }
+    // shuffling the next dir array so that the choice of the next direction is random
+    // we also move the previous directions dx, dy to the front so that the search looks less chaotic
+    let curdir = dir.filter((item) => item[0] !== dx || item[1] !== dy);
+    util.shuffleArray(curdir);
+    curdir.unshift([dx, dy]);
+    curdir.forEach(([offx, offy]) => {
+      const [newx, newy] = [x + offx, y + offy];
+      q.push([newx, newy, x, y, offx, offy]);
     });
   }
+  // bfs is complete
+  // calculating the path from start to goal
   let cur = [...goal];
-  while (cur[0] !== -1 && cur[1] !== -1) {
-    const a = cur[0],
-      b = cur[1];
-    setTimeout(() => {
-      util.getCell([a, b]).classList.add("path");
-    }, t++ * 5);
-    cur = prev[a][b];
+  const path = [];
+  while (cur[0] !== -1) {
+    path.push(cur);
+    cur = prev[cur[0]][cur[1]];
   }
+  path.reverse();
+  // animating the search
+  let t = 0;
+  anim.forEach((cell) => {
+    setTimeout(() => {
+      util.getCell(cell).classList.add("explored");
+    }, (t += 2));
+  });
+  // animating the path
+  console.log(...path);
+  path.forEach((cell) => {
+    setTimeout(() => {
+      util.getCell(cell).classList.add("path");
+    }, (t += 10));
+  });
 };
 
 const dfs = () => {
   clearPaths();
-  const [M, N] = util.getMN();
-  const grid = util.getGrid();
-  const start = util.getStart();
-  const goal = util.getGoal();
-  const st = [];
-
-  const visited = [];
-  const prev = [];
-  for (let i = 0; i < M; i++) {
-    visited[i] = Array(N).fill(0);
-    prev[i] = Array(N).map((e) => [-1, -1]);
-  }
-  let t = 1;
-  ///
-  st.push([...start, 0, 0]);
-  while (st.length > 0) {
-    const [a, b, dx, dy] = st.pop();
-    // console.log(a, b, dx, dy)
-    if (a === goal[0] && b === goal[1]) {
-      break;
-    }
-    setTimeout(() => {
-      util.getCell([a, b]).classList.add("explored");
-    }, t++ * 5);
-    const dir = util.getDir();
-    util.shuffleArray(dir);
-    dir.push([dx, dy]);
-    dir.forEach(([offa, offb]) => {
-      const x = a + offa;
-      const y = b + offb;
-      if (
-        x >= 0 &&
-        x < M &&
-        y >= 0 &&
-        y < N &&
-        grid[x][y] === 0 &&
-        visited[x][y] === 0
-      ) {
-        prev[x][y] = [a, b];
-        visited[x][y] = 1;
-        st.push([x, y, offa, offb]);
-      }
-    });
-  }
-  let cur = [...goal];
-  while (cur[0] !== -1 && cur[1] !== -1) {
-    const a = cur[0],
-      b = cur[1];
-    setTimeout(() => {
-      util.getCell([a, b]).classList.add("path");
-    }, t++ * 5);
-    cur = prev[a][b];
-  }
 };
 
 export default { bfs, clearPaths, dfs };
