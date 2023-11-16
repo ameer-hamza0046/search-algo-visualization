@@ -12,40 +12,8 @@ const clearPaths = () => {
   }
 };
 
-/**
- *
- * @param {*} anim the animation array
- * @param {*} path the array containing the path from start to goal
- * @param {*} timeSearch the time interval for every operation path searching animation
- * @param {*} timePath the time interval for every step while path animation
- * @param {*} startTime the start time
- * @returns
- */
-const searchAnimate = (
-  anim,
-  path,
-  timeSearch = 5,
-  timePath = 5,
-  startTime = 0
-) => {
-  let t = startTime;
-  // animating the search
-  clearPaths();
-  anim.forEach((cell) => {
-    setTimeout(() => {
-      util.getCell(cell).classList.add("explored");
-    }, (t += timeSearch));
-  });
-  // animating the path
-  path.forEach((cell) => {
-    setTimeout(() => {
-      util.getCell(cell).classList.add("path");
-    }, (t += timePath));
-  });
-  return t;
-};
-
 const bfs = () => {
+  clearPaths();
   // initialize variables
   const [M, N, grid, start, goal, dir] = [
     ...util.getMN(),
@@ -57,7 +25,6 @@ const bfs = () => {
   const q = new dataStructure.Queue();
   const anim = [];
   const [visited, prev] = [[], []];
-  let goalFound = false;
   for (let i = 0; i < M; i++) {
     visited[i] = Array(N).fill(0);
     prev[i] = [];
@@ -82,7 +49,6 @@ const bfs = () => {
     anim.push([x, y]);
     // if the current node is goal then stop here
     if (x === goal[0] && y === goal[1]) {
-      goalFound = true;
       break;
     }
     // shuffling the next dir array so that the choice of the next direction is random
@@ -99,18 +65,28 @@ const bfs = () => {
   // calculating the path from start to goal
   let cur = [...goal];
   const path = [];
-  if (goalFound) {
-    while (cur[0] !== -1) {
-      path.push(cur);
-      cur = prev[cur[0]][cur[1]];
-    }
+  while (cur[0] !== -1) {
+    path.push(cur);
+    cur = prev[cur[0]][cur[1]];
   }
   path.reverse();
   // animating the search
-  searchAnimate(anim, path, 5, 10, 0);
+  let t = 0;
+  anim.forEach((cell) => {
+    setTimeout(() => {
+      util.getCell(cell).classList.add("explored");
+    }, (t += 2));
+  });
+  // animating the path
+  path.forEach((cell) => {
+    setTimeout(() => {
+      util.getCell(cell).classList.add("path");
+    }, (t += 10));
+  });
 };
 
-const dls = (depthLimit) => {
+const dfs = () => {
+  clearPaths();
   // initialize variables
   const [M, N, grid, start, goal, dir] = [
     ...util.getMN(),
@@ -121,7 +97,6 @@ const dls = (depthLimit) => {
   ];
   const stack = [];
   const anim = [];
-  let goalFound = false;
   const [visited, prev] = [[], []];
   for (let i = 0; i < M; i++) {
     visited[i] = Array(N).fill(0);
@@ -135,19 +110,10 @@ const dls = (depthLimit) => {
   // prevx, prevy = coordinates of the parent node (later used to find the path from start to goal)
   // dx, dy = last used direction by the parent node (used so that the search looks somewhat less chaotic)
   // x, y, prevx, prevy, dx, dy
-  // last parameter is depth
-  stack.push([...start, -1, -1, 0, 0, 0]);
+  stack.push([...start, -1, -1, 0, 0]);
   while (stack.length > 0) {
-    const [x, y, prevx, prevy, dx, dy, depth] = stack.pop();
-    if (
-      x < 0 ||
-      x >= M ||
-      y < 0 ||
-      y >= N ||
-      grid[x][y] ||
-      visited[x][y] ||
-      depth > depthLimit
-    ) {
+    const [x, y, prevx, prevy, dx, dy] = stack.pop();
+    if (x < 0 || x >= M || y < 0 || y >= N || grid[x][y] || visited[x][y]) {
       continue;
     }
     visited[x][y] = 1;
@@ -156,7 +122,6 @@ const dls = (depthLimit) => {
     anim.push([x, y]);
     // if the current node is goal then stop here
     if (x === goal[0] && y === goal[1]) {
-      goalFound = true;
       break;
     }
     // shuffling the next dir array so that the choice of the next direction is random
@@ -166,25 +131,31 @@ const dls = (depthLimit) => {
     curdir.push([dx, dy]);
     curdir.forEach(([offx, offy]) => {
       const [newx, newy] = [x + offx, y + offy];
-      stack.push([newx, newy, x, y, offx, offy, depth + 1]);
+      stack.push([newx, newy, x, y, offx, offy]);
     });
   }
-  // dfs is complete
+  // bfs is complete
   // calculating the path from start to goal
   let cur = [...goal];
   const path = [];
-  if (goalFound) {
-    while (cur[0] !== -1) {
-      path.push(cur);
-      cur = prev[cur[0]][cur[1]];
-    }
+  while (cur[0] !== -1) {
+    path.push(cur);
+    cur = prev[cur[0]][cur[1]];
   }
   path.reverse();
   // animating the search
-  searchAnimate(anim, path, 2, 5, 0);
-  return goalFound;
+  let t = 0;
+  anim.forEach((cell) => {
+    setTimeout(() => {
+      util.getCell(cell).classList.add("explored");
+    }, (t += 10));
+  });
+  // animating the path
+  path.forEach((cell) => {
+    setTimeout(() => {
+      util.getCell(cell).classList.add("path");
+    }, (t += 10));
+  });
 };
-
-const dfs = () => dls(100000);
 
 export default { bfs, clearPaths, dfs };
