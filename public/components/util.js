@@ -41,6 +41,13 @@ const shuffleArray = (arr) => {
   }
 };
 
+const getDir = () => [
+  [-1, 0],
+  [1, 0],
+  [0, -1],
+  [0, 1],
+];
+
 ///////////////////////
 const createBoard = () => {
   const [M, N] = getMN();
@@ -121,4 +128,5 @@ export default {
   getGoal,
   getGrid,
   createBoard,
+  getDir,
 };
