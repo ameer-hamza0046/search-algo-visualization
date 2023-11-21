@@ -389,4 +389,74 @@ const greedy_bfs = () => {
   );
 };
 
-export default { bfs, dfs, iddfs, a_star, greedy_bfs };
+const dijkstra = () => {
+  // taking input M, N, grid, goal, dir
+  const [M, N, grid, start, goal] = [
+    ...util.getMN(),
+    util.getGrid(),
+    util.getStart(),
+    util.getGoal(),
+  ];
+  // initializing priority queue
+  const pq = new dataStructure.MinPriorityQueue();
+  pq.min_heap_insert({
+    key: 0,
+    cur: [...start],
+    prev: [-1, -1],
+  });
+  // 2d array visited is used so that we can avoid duplicate arrays
+  const visited = util.array2D(M, N, 0);
+  // 2d array previous will be used to calculate the path from start to goal
+  const previous = util.array2D(M, N, [-1, -1]);
+  // clearing the board off of previous results
+  util.clearPaths();
+  // t is a counter used for animation
+  let t = 0;
+  // starting dijkstra
+  while (pq.empty() === false) {
+    const { key, cur, prev } = pq.heap_extract_min();
+    // checking if we have to explore cur or not
+    if (
+      cur[0] < 0 ||
+      cur[0] >= M ||
+      cur[1] < 0 ||
+      cur[1] >= N ||
+      grid[cur[0]][cur[1]] == 1 ||
+      visited[cur[0]][cur[1]]
+    ) {
+      continue;
+    }
+    visited[cur[0]][cur[1]] = true;
+    previous[cur[0]][cur[1]] = [...prev];
+    setTimeout(() => {
+      util.getCell(cur).classList.add("explored");
+    }, (t += 10));
+    if (util.isEqual(cur, goal)) {
+      break;
+    }
+    util.getDir().forEach((d) => {
+      const newcur = [cur[0] + d[0], cur[1] + d[1]];
+      pq.min_heap_insert({
+        key: key + 1,
+        cur: newcur,
+        prev: cur,
+      });
+    });
+  }
+  // calculating path using the "previous" 2D array
+  const path = [];
+  let cur = [...goal];
+  while (util.isEqual(cur, [-1, -1]) === false) {
+    path.push(cur);
+    cur = previous[cur[0]][cur[1]];
+  }
+  path.reverse();
+  // animating the path
+  path.forEach((cell) =>
+    setTimeout(() => {
+      util.getCell(cell).classList.add("path");
+    }, (t += 20))
+  );
+};
+
+export default { bfs, dfs, iddfs, a_star, greedy_bfs, dijkstra };
