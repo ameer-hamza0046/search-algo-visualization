@@ -65,7 +65,7 @@ class MinPriorityQueue {
   }
   heap_decrease_key(i, key) {
     this.A[i].key = key;
-    while (i > 0 && this.A[this.parent(i)].key > this.A[i].key) {
+    while (i > 0 && this.A[this.parent(i)].key >= this.A[i].key) {
       [this.A[i], this.A[this.parent(i)]] = [this.A[this.parent(i)], this.A[i]];
       i = this.parent(i);
     }
