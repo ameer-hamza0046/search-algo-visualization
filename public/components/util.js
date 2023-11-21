@@ -81,9 +81,9 @@ const createBoard = () => {
       const cell = document.createElement("div");
       cell.classList.add("cell");
       cell.addEventListener("click", (e) => e.target.classList.toggle("wall"));
-      // cell.addEventListener("dragenter", (e) =>
-      //   e.target.classList.toggle("wall")
-      // );
+      cell.addEventListener("dragleave", (e) =>
+        e.target.classList.toggle("wall")
+      );
       row.appendChild(cell);
     }
     board.appendChild(row);
