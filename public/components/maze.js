@@ -21,6 +21,7 @@ const mazeSkeleton = () => {
 };
 //
 const dfsmaze = () => {
+  util.clearPaths();
   const grid = mazeSkeleton();
   // select a starting location
   // range(x) = 2*[0, M/2)+1
