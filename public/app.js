@@ -3,8 +3,8 @@ import maze from "./components/maze.js";
 import search from "./components/search.js";
 
 util.createBoard();
-
-document.getElementById("btn1").addEventListener("click", maze.dfsmaze);
-document.getElementById("btn2").addEventListener("click", search.bfs);
-document.getElementById("btn3").addEventListener("click", util.createBoard);
-document.getElementById("btn4").addEventListener("click", search.clearPaths);
+const algoSelect = document.getElementById("search-algo-select");
+document.getElementById("createMaze").addEventListener("click", maze.dfsmaze);
+document.getElementById("visualize").addEventListener("click", () => search[algoSelect.value]());
+document.getElementById("reset").addEventListener("click", util.createBoard);
+document.getElementById("clear").addEventListener("click", util.clearPaths);

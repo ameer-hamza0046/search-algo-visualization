@@ -41,12 +41,33 @@ const shuffleArray = (arr) => {
   }
 };
 
-const getDir = () => [
-  [-1, 0],
-  [1, 0],
-  [0, -1],
-  [0, 1],
-];
+const getDir = () => {
+  const dir = [[0, -1],[-1, 0],[0, 1],[1, 0],];
+  shuffleArray(dir);
+  return dir;
+};
+
+const array2D = (x, y, val) => {
+  return Array(x)
+    .fill(0)
+    .map(() => {
+      let arr = Array(y);
+      Array.isArray(val) ? (arr = arr.fill(0).map(() => val)) : arr.fill(val);
+      return arr;
+    });
+};
+
+const isEqual = (arr1, arr2) => {
+  if (arr1.length !== arr2.length) {
+    return false;
+  }
+  for (let i = 0; i < arr1.length; i++) {
+    if (arr1[i] !== arr2[i]) {
+      return false;
+    }
+  }
+  return true;
+};
 
 ///////////////////////
 const createBoard = () => {
@@ -60,9 +81,9 @@ const createBoard = () => {
       const cell = document.createElement("div");
       cell.classList.add("cell");
       cell.addEventListener("click", (e) => e.target.classList.toggle("wall"));
-      // cell.addEventListener("dragenter", (e) =>
-      //   e.target.classList.toggle("wall")
-      // );
+      cell.addEventListener("dragleave", (e) =>
+        e.target.classList.toggle("wall")
+      );
       row.appendChild(cell);
     }
     board.appendChild(row);
@@ -119,14 +140,28 @@ const createBoard = () => {
   }
 };
 
+const clearPaths = () => {
+  const [M, N] = getMN();
+  const board = document.getElementById("board");
+  for (let i = 0; i < M; i++) {
+    for (let j = 0; j < N; j++) {
+      getCell([i, j]).classList.remove("path");
+      getCell([i, j]).classList.remove("explored");
+    }
+  }
+};
+
 export default {
-  rand,
-  shuffleArray,
   getMN,
   getCell,
   getStart,
   getGoal,
   getGrid,
-  createBoard,
   getDir,
+  rand,
+  shuffleArray,
+  array2D,
+  isEqual,
+  createBoard,
+  clearPaths,
 };

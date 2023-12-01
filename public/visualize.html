@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search Algorithm Visualization</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div id="root">
+      <div id="board"></div>
+      <div class="buttons">
+        <select name="search-algo" id="search-algo-select">
+          <option value="bfs">BFS</option>
+          <option value="dfs">DFS</option>
+          <option value="iddfs">IDDFS</option>
+          <option value="a_star">A*</option>
+          <option value="greedy_bfs">Greedy BFS</option>
+          <option value="dijkstra">Dijkstra</option>
+        </select>
+        <button id="visualize">Visualize</button>
+        <button id="clear">Clear Path</button>
+        <button id="createMaze">Create Maze</button>
+        <button id="reset">Reset</button>
+      </div>
+    </div>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

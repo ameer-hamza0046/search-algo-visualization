@@ -21,6 +21,7 @@ const mazeSkeleton = () => {
 };
 //
 const dfsmaze = () => {
+  util.clearPaths();
   const grid = mazeSkeleton();
   // select a starting location
   // range(x) = 2*[0, M/2)+1
@@ -33,12 +34,7 @@ const dfsmaze = () => {
   }
 
   const dfs = ([x, y]) => {
-    const dir = [
-      [-1, 0],
-      [1, 0],
-      [0, -1],
-      [0, 1],
-    ];
+    const dir = util.getDir();
     util.shuffleArray(dir);
     dir.forEach(([dirx, diry]) => {
       const [newx, newy] = [x + 2 * dirx, y + 2 * diry];
