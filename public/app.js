@@ -4,7 +4,7 @@ import search from "./components/search.js";
 
 util.createBoard();
 const algoSelect = document.getElementById("search-algo-select");
-document.getElementById("btn1").addEventListener("click", maze.dfsmaze);
-document.getElementById("btn2").addEventListener("click", () => search[algoSelect.value]());
-document.getElementById("btn3").addEventListener("click", util.createBoard);
-document.getElementById("btn4").addEventListener("click", util.clearPaths);
+document.getElementById("createMaze").addEventListener("click", maze.dfsmaze);
+document.getElementById("visualize").addEventListener("click", () => search[algoSelect.value]());
+document.getElementById("reset").addEventListener("click", util.createBoard);
+document.getElementById("clear").addEventListener("click", util.clearPaths);
